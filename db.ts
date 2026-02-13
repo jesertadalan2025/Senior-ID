@@ -144,11 +144,13 @@ export const db = {
 
   saveUser: (user: UserAccount) => {
     const users = db.getUsers();
-    const index = users.findIndex(u => u.id === user.id);
+    // Normalize username to lowercase for robust lookup
+    const normalizedUser = { ...user, username: user.username.toLowerCase() };
+    const index = users.findIndex(u => u.id === normalizedUser.id);
     if (index > -1) {
-      users[index] = user;
+      users[index] = normalizedUser;
     } else {
-      users.push(user);
+      users.push(normalizedUser);
     }
     localStorage.setItem(USERS_KEY, JSON.stringify(users));
   },
@@ -167,7 +169,8 @@ export const db = {
 
   login: (username: string, password: string): UserAccount | null => {
     const users = db.getUsers();
-    const user = users.find(u => u.username === username && u.password === password);
+    const normalizedInputUsername = username.toLowerCase();
+    const user = users.find(u => u.username.toLowerCase() === normalizedInputUsername && u.password === password);
     if (user) {
       localStorage.setItem(SESSION_KEY, JSON.stringify(user));
       return user;

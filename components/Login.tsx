@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { ShieldCheck, Lock, User, AlertCircle, ArrowRight } from 'lucide-react';
+import { ShieldCheck, AlertCircle, ArrowRight } from 'lucide-react';
 import { useNavigate, Link } from 'react-router-dom';
 import { db } from '../db';
 import { UserAccount, SiteSettings } from '../types';
@@ -19,7 +19,8 @@ const Login: React.FC<LoginProps> = ({ settings, onLogin }) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
-    const user = db.login(username, password);
+    // Normalize login input to match normalized storage
+    const user = db.login(username.trim().toLowerCase(), password);
     if (user) {
       onLogin(user);
     } else {
@@ -55,7 +56,7 @@ const Login: React.FC<LoginProps> = ({ settings, onLogin }) => {
                 type="text"
                 required
                 placeholder="USERNAME"
-                className="block w-full px-6 py-4 bg-slate-50 dark:bg-slate-900 border border-transparent focus:border-[var(--primary-color)] rounded-2xl outline-none text-slate-900 dark:text-white font-black text-sm tracking-widest placeholder:text-slate-300 transition-all"
+                className="block w-full px-6 py-4 bg-slate-50 dark:bg-slate-900 border border-transparent focus:border-[var(--primary-color)] rounded-2xl outline-none text-slate-900 dark:text-white font-black text-sm tracking-widest placeholder:text-slate-300 transition-all uppercase"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
               />

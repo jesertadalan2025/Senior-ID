@@ -37,7 +37,12 @@ const SeniorCard: React.FC<SeniorCardProps> = ({ senior }) => {
 
   return (
     <div className="flex flex-col items-center">
-      <div className="w-[400px] h-[260px] bg-white rounded-lg shadow-2xl border border-emerald-600 overflow-hidden relative flex flex-col font-sans mb-4 print:shadow-none print:border print:border-emerald-700">
+      {/* Wrapper to handle print positioning */}
+      <div className="print-only fixed top-0 left-0 w-full flex justify-center pt-8 bg-white" style={{ display: 'none' }}>
+        {/* Mirror of the card for print styling */}
+      </div>
+
+      <div className="w-[400px] h-[260px] bg-white rounded-lg shadow-2xl border border-emerald-600 overflow-hidden relative flex flex-col font-sans mb-4 print:shadow-none print:border print:border-emerald-700 print:m-0">
         
         {/* Middle Logo Watermark */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-10 z-0">
@@ -152,7 +157,7 @@ const SeniorCard: React.FC<SeniorCardProps> = ({ senior }) => {
 
         {/* Bottom Bar */}
         <div className="bg-emerald-900 h-2 w-full flex justify-between px-3 items-center">
-           <span className="text-[5px] text-white/50 font-mono">SECURE PALUAN OSCA ID SYSTEM</span>
+           <span className="text-[5px] text-white/50 font-mono uppercase tracking-tighter">SECURE PALUAN OSCA ID SYSTEM</span>
            <span className="text-[5px] text-white/50 font-mono">VER 2.1</span>
         </div>
       </div>

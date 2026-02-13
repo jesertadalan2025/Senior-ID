@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { ArrowLeft, Save, Upload, Info, User, Phone, MapPin, HeartPulse, PenTool, Camera, RotateCcw, Image as ImageIcon, Check, UserRound } from 'lucide-react';
+import { ArrowLeft, Save, User, Phone, MapPin, HeartPulse, Camera, RotateCcw, Image as ImageIcon, Info, UserRound } from 'lucide-react';
 import { db } from '../db';
 import { SeniorCitizen, SeniorStatus, Gender } from '../types';
 import SeniorCard from './SeniorCard';
@@ -137,7 +137,7 @@ const SeniorForm: React.FC = () => {
 
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div className="mb-8 flex items-center justify-between">
+      <div className="mb-8 flex items-center justify-between no-print">
         <button 
           onClick={() => navigate('/')}
           className="flex items-center text-emerald-800 hover:text-emerald-900 font-black transition-all bg-white px-5 py-2.5 rounded-xl border border-emerald-200 shadow-sm uppercase text-xs tracking-widest"
@@ -154,7 +154,7 @@ const SeniorForm: React.FC = () => {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
-        <div className={`lg:col-span-7 space-y-6 ${showPreview ? 'hidden lg:block' : 'block'}`}>
+        <div className={`lg:col-span-7 space-y-6 no-print ${showPreview ? 'hidden lg:block' : 'block'}`}>
           <div className="bg-white dark:bg-slate-800 shadow-xl rounded-2xl p-8 border border-emerald-100 dark:border-slate-700">
             <h2 className="text-2xl font-black mb-8 text-emerald-900 dark:text-white flex items-center uppercase tracking-tight">
               <User className="mr-3 text-emerald-600" size={28} />
@@ -397,9 +397,9 @@ const SeniorForm: React.FC = () => {
           </div>
         </div>
 
-        <div className={`lg:col-span-5 space-y-6 ${showPreview ? 'block' : 'hidden lg:block'}`}>
-          <div className="sticky top-24">
-            <div className="flex justify-center transform scale-90 lg:scale-100 origin-top transition-transform">
+        <div className={`lg:col-span-5 space-y-6 flex flex-col items-center ${showPreview ? 'block' : 'hidden lg:block'}`}>
+          <div className="sticky top-24 w-full flex flex-col items-center">
+            <div className="transform scale-90 lg:scale-100 origin-top transition-transform">
               <SeniorCard 
                 senior={{
                   ...formData,
@@ -408,7 +408,7 @@ const SeniorForm: React.FC = () => {
                 }}
               />
             </div>
-            <div className="mt-8 p-6 bg-white dark:bg-slate-800 border border-emerald-100 dark:border-slate-700 rounded-2xl shadow-sm">
+            <div className="mt-8 p-6 bg-white dark:bg-slate-800 border border-emerald-100 dark:border-slate-700 rounded-2xl shadow-sm no-print w-full">
                <div className="flex items-center space-x-3 mb-4">
                  <div className="w-10 h-10 bg-emerald-100 dark:bg-emerald-900/30 rounded-full flex items-center justify-center text-emerald-600">
                     <Info size={20} />
