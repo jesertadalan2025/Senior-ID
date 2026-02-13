@@ -1,0 +1,7 @@
+{
+  "name": "SeniorID Admin & Verification System",
+  "description": "A comprehensive system for managing senior citizen records, generating secure QR-coded ID cards, and verifying status via real-time scanning.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
