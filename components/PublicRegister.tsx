@@ -15,7 +15,8 @@ const PublicRegister: React.FC<{ settings: SiteSettings }> = ({ settings }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  const [formData, setFormData] = useState<Omit<RegistrationApplication, 'id' | 'applicationId' | 'appStatus'>>({
+  // Omit createdAt from the form state as it is generated on submission
+  const [formData, setFormData] = useState<Omit<RegistrationApplication, 'id' | 'applicationId' | 'appStatus' | 'createdAt'>>({
     firstName: '',
     middleName: '',
     lastName: '',
@@ -135,7 +136,7 @@ const PublicRegister: React.FC<{ settings: SiteSettings }> = ({ settings }) => {
       </header>
 
       <div className="max-w-3xl mx-auto px-4 -mt-6">
-        <form onSubmit={handleSubmit} className="bg-white dark:bg-slate-800 shadow-2xl rounded-3xl p-8 border border-slate-100 dark:border-slate-700 space-y-8">
+        <form onSubmit={handleSubmit} className="bg-white dark:bg-slate-800 shadow-2xl rounded-3xl p-6 md:p-8 border border-slate-100 dark:border-slate-700 space-y-8">
           <div className="flex items-center space-x-3 mb-4">
              <div className="w-10 h-10 bg-blue-100 dark:bg-blue-900/30 text-blue-600 rounded-full flex items-center justify-center">
                 <User size={20} />
@@ -204,7 +205,7 @@ const PublicRegister: React.FC<{ settings: SiteSettings }> = ({ settings }) => {
                     </button>
                   </>
                 ) : formData.photoUrl ? (
-                  <img src={formData.photoUrl} className="h-full w-full object-cover" />
+                  <img src={formData.photoUrl} className="h-full w-full object-cover" alt="Profile" />
                 ) : (
                   <div className="text-center p-6">
                     <ImageIcon size={48} className="mx-auto text-slate-200 mb-2" />
@@ -236,8 +237,8 @@ const PublicRegister: React.FC<{ settings: SiteSettings }> = ({ settings }) => {
               <h3 className="text-xs font-black text-red-900 dark:text-red-400 uppercase">Emergency Contact</h3>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <input type="text" placeholder="Contact Name" required className="px-4 py-3 bg-white dark:bg-slate-900 border rounded-xl font-bold" value={formData.emergencyContact} onChange={e => setFormData({...formData, emergencyContact: e.target.value})} />
-              <input type="tel" placeholder="Mobile Number" required className="px-4 py-3 bg-white dark:bg-slate-900 border rounded-xl font-bold" value={formData.emergencyPhone} onChange={e => setFormData({...formData, emergencyPhone: e.target.value})} />
+              <input type="text" placeholder="Contact Name" required className="px-4 py-3 bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-700 rounded-xl font-bold" value={formData.emergencyContact} onChange={e => setFormData({...formData, emergencyContact: e.target.value})} />
+              <input type="tel" placeholder="Mobile Number" required className="px-4 py-3 bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-700 rounded-xl font-bold" value={formData.emergencyPhone} onChange={e => setFormData({...formData, emergencyPhone: e.target.value})} />
             </div>
           </div>
 

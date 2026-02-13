@@ -12,9 +12,9 @@ const QRScanner: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [isScanning, setIsScanning] = useState(false);
   const [manualId, setManualId] = useState('');
-  const requestRef = useRef<number>();
+  const requestRef = useRef<number>(0);
 
-  const scan = () => {
+  const scan = (_time?: number) => {
     if (videoRef.current && canvasRef.current && isScanning) {
       const video = videoRef.current;
       const canvas = canvasRef.current;
@@ -40,8 +40,8 @@ const QRScanner: React.FC = () => {
           return;
         }
       }
+      requestRef.current = requestAnimationFrame(scan);
     }
-    requestRef.current = requestAnimationFrame(scan);
   };
 
   const startCamera = async () => {
@@ -96,10 +96,10 @@ const QRScanner: React.FC = () => {
       </div>
 
       <div className="bg-white shadow-xl rounded-2xl p-6 border border-gray-100 text-center">
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">Secure Verification</h1>
-        <p className="text-gray-500 mb-8">Align the ID card's QR code within the viewfinder below.</p>
+        <h1 className="text-2xl font-bold text-gray-900 mb-2 uppercase tracking-tight">Secure Verification</h1>
+        <p className="text-xs text-gray-500 mb-8 uppercase font-bold tracking-widest">Align the ID card's QR code within the viewfinder</p>
 
-        <div className="relative aspect-square max-w-sm mx-auto bg-gray-900 rounded-2xl overflow-hidden mb-8 shadow-inner ring-4 ring-gray-50">
+        <div className="relative aspect-square max-w-sm mx-auto bg-gray-900 rounded-3xl overflow-hidden mb-8 shadow-inner ring-4 ring-gray-50">
           <canvas ref={canvasRef} className="hidden" />
           {error ? (
             <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-white bg-gray-800">
@@ -107,7 +107,7 @@ const QRScanner: React.FC = () => {
               <p className="text-sm font-medium text-center">{error}</p>
               <button 
                 onClick={startCamera}
-                className="mt-4 px-4 py-2 bg-indigo-600 rounded-lg text-xs"
+                className="mt-4 px-4 py-2 bg-indigo-600 rounded-lg text-xs font-black uppercase"
               >
                 Retry Camera
               </button>
@@ -120,19 +120,19 @@ const QRScanner: React.FC = () => {
                 playsInline 
                 className="w-full h-full object-cover"
               />
-              <div className="absolute inset-0 flex items-center justify-center">
-                 <div className="w-64 h-64 border-2 border-indigo-400 border-dashed rounded-2xl animate-pulse flex items-center justify-center">
-                    <div className="w-4 h-4 bg-indigo-500 rounded-full animate-ping" />
+              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                 <div className="w-64 h-64 border-2 border-white/50 border-dashed rounded-3xl animate-pulse flex items-center justify-center">
+                    <div className="w-4 h-4 bg-white rounded-full animate-ping" />
                  </div>
               </div>
-              <div className="absolute top-4 left-4 bg-black/50 backdrop-blur-md px-3 py-1 rounded-full flex items-center space-x-2">
+              <div className="absolute top-4 left-4 bg-black/50 backdrop-blur-md px-3 py-1.5 rounded-full flex items-center space-x-2">
                 <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-                <span className="text-white text-[10px] font-bold uppercase tracking-wider">Live Scanner Active</span>
+                <span className="text-white text-[8px] font-black uppercase tracking-widest">Scanner Active</span>
               </div>
               <div className="absolute bottom-4 left-1/2 -translate-x-1/2">
                 <button 
                   onClick={stopCamera}
-                  className="bg-white/20 hover:bg-white/30 backdrop-blur-md text-white px-6 py-2 rounded-full text-xs font-bold transition-all border border-white/30"
+                  className="bg-white/20 hover:bg-white/30 backdrop-blur-md text-white px-6 py-2 rounded-xl text-[10px] font-black transition-all border border-white/30 uppercase"
                 >
                   Stop Camera
                 </button>
@@ -146,8 +146,8 @@ const QRScanner: React.FC = () => {
               <div className="w-20 h-20 bg-indigo-50 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                 <Camera size={40} className="text-indigo-600" />
               </div>
-              <span className="text-indigo-600 font-bold">Tap to Start Scanner</span>
-              <span className="text-gray-400 text-xs mt-1">Requires camera permission</span>
+              <span className="text-indigo-600 font-black uppercase text-xs">Tap to Start Scanner</span>
+              <span className="text-gray-400 text-[9px] font-bold mt-1 uppercase">Camera access required</span>
             </div>
           )}
         </div>
@@ -157,31 +157,31 @@ const QRScanner: React.FC = () => {
             <div className="w-full border-t border-gray-100"></div>
           </div>
           <div className="relative flex justify-center text-sm">
-            <span className="px-4 bg-white text-gray-400 font-medium uppercase tracking-widest text-[10px]">Manual Verification</span>
+            <span className="px-4 bg-white text-gray-400 font-black uppercase tracking-widest text-[10px]">Manual Entry</span>
           </div>
         </div>
 
-        <form onSubmit={handleManualLookup} className="flex gap-2 mb-4">
+        <form onSubmit={handleManualLookup} className="flex flex-col sm:flex-row gap-2 mb-4">
           <div className="relative flex-grow">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
             <input
               type="text"
-              placeholder="Enter Senior ID..."
-              className="w-full pl-12 pr-4 py-4 border-2 border-gray-100 rounded-xl focus:border-indigo-500 focus:ring-0 outline-none transition-all placeholder:text-gray-300"
+              placeholder="Enter ID Number..."
+              className="w-full pl-12 pr-4 py-4 border-2 border-gray-100 rounded-2xl focus:border-indigo-500 focus:ring-0 outline-none transition-all placeholder:text-gray-300 font-bold"
               value={manualId}
               onChange={(e) => setManualId(e.target.value)}
             />
           </div>
           <button 
             type="submit"
-            className="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-4 rounded-xl font-bold transition-all shadow-lg shadow-indigo-100 flex items-center"
+            className="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-4 rounded-2xl font-black uppercase text-xs tracking-widest transition-all shadow-lg active:scale-95"
           >
             Verify
           </button>
         </form>
 
-        <p className="text-[11px] text-gray-400 italic">
-          Tip: You can find the Senior ID printed on the bottom right of the physical card.
+        <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-4">
+          Verification ID is located on the back or bottom of the ID.
         </p>
       </div>
     </div>
