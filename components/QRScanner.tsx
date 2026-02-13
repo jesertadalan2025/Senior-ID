@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Camera, CameraOff, ArrowLeft, Search, CheckCircle } from 'lucide-react';
+import { Camera, CameraOff, ArrowLeft, Search } from 'lucide-react';
 
 declare const jsQR: any;
 
@@ -12,9 +12,10 @@ const QRScanner: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [isScanning, setIsScanning] = useState(false);
   const [manualId, setManualId] = useState('');
-  const requestRef = useRef<number>(0);
+  const requestRef = useRef<number | null>(null);
 
-  const scan = (_time?: number) => {
+  // Use a strictly typed timestamp parameter to satisfy TS2554
+  const scan = (time: DOMHighResTimeStamp) => {
     if (videoRef.current && canvasRef.current && isScanning) {
       const video = videoRef.current;
       const canvas = canvasRef.current;
@@ -62,7 +63,10 @@ const QRScanner: React.FC = () => {
 
   const stopCamera = () => {
     setIsScanning(false);
-    if (requestRef.current) cancelAnimationFrame(requestRef.current);
+    if (requestRef.current !== null) {
+      cancelAnimationFrame(requestRef.current);
+      requestRef.current = null;
+    }
     if (videoRef.current && videoRef.current.srcObject) {
       const tracks = (videoRef.current.srcObject as MediaStream).getTracks();
       tracks.forEach(track => track.stop());

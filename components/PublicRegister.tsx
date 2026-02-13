@@ -3,7 +3,7 @@ import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { User, Phone, MapPin, HeartPulse, Camera, RotateCcw, Image as ImageIcon, Check, UserRound, ArrowRight, ShieldCheck } from 'lucide-react';
 import { db } from '../db';
-import { SeniorCitizen, ApplicationStatus, Gender, RegistrationApplication, SiteSettings } from '../types';
+import { ApplicationStatus, Gender, RegistrationApplication, SiteSettings } from '../types';
 import SignaturePad from './SignaturePad';
 
 const PublicRegister: React.FC<{ settings: SiteSettings }> = ({ settings }) => {
@@ -15,8 +15,8 @@ const PublicRegister: React.FC<{ settings: SiteSettings }> = ({ settings }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  // Omit createdAt from the form state as it is generated on submission
-  const [formData, setFormData] = useState<Omit<RegistrationApplication, 'id' | 'applicationId' | 'appStatus' | 'createdAt'>>({
+  // Explicitly define the form state type to omit all auto-generated or staff-only fields
+  const [formData, setFormData] = useState<Omit<RegistrationApplication, 'id' | 'applicationId' | 'appStatus' | 'createdAt' | 'reviewedBy' | 'reviewedAt'>>({
     firstName: '',
     middleName: '',
     lastName: '',
