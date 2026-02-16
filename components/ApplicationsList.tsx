@@ -105,7 +105,7 @@ const ApplicationsList: React.FC = () => {
                       <div className="flex items-center">
                         <img src={app.photoUrl} className="w-12 h-12 rounded-xl object-cover mr-4 border border-slate-100 dark:border-slate-700 shadow-sm" alt="Profile" />
                         <div>
-                          <p className="text-sm font-black text-slate-900 dark:text-white uppercase">{app.lastName}, {app.firstName}</p>
+                          <p className="text-sm font-black text-slate-900 dark:text-white">{app.lastName}, {app.firstName}</p>
                           <p className="text-[10px] font-bold text-slate-400 uppercase tracking-tighter line-clamp-1">{app.address}</p>
                         </div>
                       </div>
@@ -183,7 +183,7 @@ const ApplicationsList: React.FC = () => {
               <div className="space-y-6">
                  <div>
                     <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1 block">Full Applicant Name</label>
-                    <p className="text-xl font-black text-slate-900 dark:text-white uppercase leading-tight">
+                    <p className="text-xl font-black text-slate-900 dark:text-white leading-tight">
                       {selectedApp.lastName}, {selectedApp.firstName} {selectedApp.middleName} {selectedApp.suffix}
                     </p>
                  </div>

@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { ShieldCheck, AlertCircle, ArrowRight } from 'lucide-react';
+import { ShieldCheck, AlertCircle, ArrowRight, Info } from 'lucide-react';
 import { useNavigate, Link } from 'react-router-dom';
 import { db } from '../db';
 import { UserAccount, SiteSettings } from '../types';
@@ -19,7 +19,7 @@ const Login: React.FC<LoginProps> = ({ settings, onLogin }) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
-    // Normalize login input to match normalized storage
+    // Normalize login input to lowercase to match normalized storage
     const user = db.login(username.trim().toLowerCase(), password);
     if (user) {
       onLogin(user);
@@ -56,9 +56,9 @@ const Login: React.FC<LoginProps> = ({ settings, onLogin }) => {
                 type="text"
                 required
                 placeholder="USERNAME"
-                className="block w-full px-6 py-4 bg-slate-50 dark:bg-slate-900 border border-transparent focus:border-[var(--primary-color)] rounded-2xl outline-none text-slate-900 dark:text-white font-black text-sm tracking-widest placeholder:text-slate-300 transition-all uppercase"
+                className="block w-full px-6 py-4 bg-slate-50 dark:bg-slate-900 border border-transparent focus:border-[var(--primary-color)] rounded-2xl outline-none text-slate-900 dark:text-white font-black text-sm tracking-widest placeholder:text-slate-300 transition-all lowercase"
                 value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                onChange={(e) => setUsername(e.target.value.toLowerCase())}
               />
               <input
                 type="password"
@@ -75,8 +75,17 @@ const Login: React.FC<LoginProps> = ({ settings, onLogin }) => {
             </button>
           </form>
 
-          <div className="mt-8 pt-8 border-t border-slate-50 dark:border-slate-700 flex flex-col gap-4">
-            <Link to="/register" className="flex items-center justify-center text-[10px] font-black text-slate-400 hover:text-[var(--primary-color)] uppercase tracking-widest transition-all">
+          <div className="mt-8 p-4 bg-blue-50 dark:bg-blue-900/10 rounded-2xl border border-blue-100 dark:border-blue-800">
+             <div className="flex items-start">
+               <Info size={16} className="text-blue-600 mt-0.5 mr-2 flex-shrink-0" />
+               <p className="text-[9px] font-black text-blue-800 dark:text-blue-400 uppercase tracking-tight leading-tight">
+                 Notice: This system uses local storage. Data created on this device is not shared with other devices.
+               </p>
+             </div>
+          </div>
+
+          <div className="mt-6 pt-6 border-t border-slate-50 dark:border-slate-700 flex flex-col gap-4 text-center">
+            <Link to="/register" className="inline-flex items-center justify-center text-[10px] font-black text-slate-400 hover:text-[var(--primary-color)] uppercase tracking-widest transition-all">
               Senior Self-Registration <ArrowRight size={14} className="ml-2" />
             </Link>
           </div>

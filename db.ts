@@ -8,6 +8,31 @@ const SETTINGS_KEY = 'senior_system_settings';
 const APPS_KEY = 'senior_system_applications';
 
 export const db = {
+  // --- Database Portability (Crucial for Vercel/Local-First) ---
+  exportFullDatabase: () => {
+    const data = {
+      seniors: db.getSeniors(),
+      users: db.getUsers(),
+      settings: db.getSettings(),
+      applications: db.getApplications()
+    };
+    return JSON.stringify(data);
+  },
+
+  importFullDatabase: (json: string) => {
+    try {
+      const data = JSON.parse(json);
+      if (data.seniors) localStorage.setItem(DB_KEY, JSON.stringify(data.seniors));
+      if (data.users) localStorage.setItem(USERS_KEY, JSON.stringify(data.users));
+      if (data.settings) localStorage.setItem(SETTINGS_KEY, JSON.stringify(data.settings));
+      if (data.applications) localStorage.setItem(APPS_KEY, JSON.stringify(data.applications));
+      return true;
+    } catch (e) {
+      console.error("Failed to import database", e);
+      return false;
+    }
+  },
+
   // --- Senior Management ---
   getSeniors: (): SeniorCitizen[] => {
     const data = localStorage.getItem(DB_KEY);
@@ -114,7 +139,7 @@ export const db = {
       return {
         title: 'Paluan SeniorID',
         logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/e/e0/Paluan_Seal.png',
-        primaryColor: '#065f46', // emerald-800
+        primaryColor: '#065f46',
         isDarkMode: false
       };
     }
@@ -144,8 +169,8 @@ export const db = {
 
   saveUser: (user: UserAccount) => {
     const users = db.getUsers();
-    // Normalize username to lowercase for robust lookup
-    const normalizedUser = { ...user, username: user.username.toLowerCase() };
+    // Normalize username to small letters for reliable authentication
+    const normalizedUser = { ...user, username: user.username.trim().toLowerCase() };
     const index = users.findIndex(u => u.id === normalizedUser.id);
     if (index > -1) {
       users[index] = normalizedUser;
@@ -169,7 +194,7 @@ export const db = {
 
   login: (username: string, password: string): UserAccount | null => {
     const users = db.getUsers();
-    const normalizedInputUsername = username.toLowerCase();
+    const normalizedInputUsername = username.trim().toLowerCase();
     const user = users.find(u => u.username.toLowerCase() === normalizedInputUsername && u.password === password);
     if (user) {
       localStorage.setItem(SESSION_KEY, JSON.stringify(user));

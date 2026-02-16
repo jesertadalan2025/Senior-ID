@@ -25,7 +25,7 @@ const SeniorCard: React.FC<SeniorCardProps> = ({ senior }) => {
           backgroundColor: '#ffffff'
         });
         const link = document.createElement('a');
-        link.download = `PALUAN-OSCA-ID-${senior.lastName.toUpperCase()}-${senior.seniorId}.png`;
+        link.download = `PALUAN-OSCA-ID-${senior.lastName}-${senior.seniorId}.png`;
         link.href = dataUrl;
         link.click();
       } catch (err) {
@@ -125,14 +125,14 @@ const SeniorCard: React.FC<SeniorCardProps> = ({ senior }) => {
               <div className="space-y-1.5 print:space-y-1">
                 <div className="flex flex-col">
                   <span className="text-[7px] print:text-[5px] font-black text-emerald-700 uppercase leading-none tracking-widest">Name of Senior Citizen</span>
-                  <h2 className="text-[15px] print:text-[12px] font-black text-slate-900 leading-tight truncate tracking-tight uppercase">
+                  <h2 className="text-[15px] print:text-[12px] font-black text-slate-900 leading-tight truncate tracking-tight">
                     {senior.lastName}, {senior.firstName} {senior.middleName} {senior.suffix}
                   </h2>
                 </div>
 
                 <div className="flex flex-col">
                   <span className="text-[7px] print:text-[5px] font-black text-emerald-700 uppercase leading-none tracking-widest">Residential Address</span>
-                  <p className="text-[9px] print:text-[8px] font-bold text-slate-700 leading-tight line-clamp-2 min-h-[20px] print:min-h-[16px] uppercase tracking-tighter">{senior.address || 'N/A'}</p>
+                  <p className="text-[9px] print:text-[8px] font-bold text-slate-700 leading-tight line-clamp-2 min-h-[20px] print:min-h-[16px] tracking-tighter">{senior.address || 'N/A'}</p>
                 </div>
 
                 <div className="flex items-center space-x-5">

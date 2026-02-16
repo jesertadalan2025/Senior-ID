@@ -24,23 +24,22 @@
       /* PRINT OPTIMIZATION - TARGETS PVC CR80 SIZE */
       @media print {
         @page {
-          size: 86mm 54mm; /* Standard CR80 PVC card size */
+          size: 86mm 54mm; 
           margin: 0;
         }
         
-        /* Hide EVERYTHING by default */
-        html, body, #root, main, footer, header, nav, .no-print {
+        /* Hide UI components using a very specific selector to avoid hiding root */
+        body > *:not(#root),
+        #root > *:not(div),
+        header, nav, footer, .no-print, button, .bg-slate-50, .bg-slate-900 {
           display: none !important;
           visibility: hidden !important;
-          height: 0 !important;
-          margin: 0 !important;
-          padding: 0 !important;
         }
 
-        /* Show ONLY the ID Card Container */
-        .id-card-print-area, .id-card-print-area * {
-          display: flex !important;
+        /* Force visibility of the print area */
+        #root, main, .id-card-print-area, .id-card-print-area * {
           visibility: visible !important;
+          display: flex !important;
         }
 
         .id-card-print-area {
@@ -51,16 +50,15 @@
           height: 54mm !important;
           margin: 0 !important;
           padding: 0 !important;
+          z-index: 9999999 !important;
           background: white !important;
-          z-index: 99999 !important;
-          justify-content: center !important;
-          align-items: center !important;
         }
 
         body {
           background-color: white !important;
           -webkit-print-color-adjust: exact !important;
           print-color-adjust: exact !important;
+          color-adjust: exact !important;
         }
       }
 

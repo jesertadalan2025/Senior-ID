@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { Edit2, Trash2, ExternalLink, Search, CheckCircle, XCircle, Shield, Inbox, UserPlus } from 'lucide-react';
+import { Edit2, Trash2, ExternalLink, Search, CheckCircle, XCircle, Shield, Inbox, UserPlus, Info } from 'lucide-react';
 import { db } from '../db';
 import { SeniorCitizen, SeniorStatus, UserAccount, RegistrationApplication, ApplicationStatus } from '../types';
 
@@ -35,6 +35,16 @@ const Dashboard: React.FC = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-6 py-4">
+      {/* Sync Status / Device Warning */}
+      <div className="mb-6 bg-blue-50 dark:bg-blue-900/10 border border-blue-100 dark:border-blue-800/30 p-4 rounded-[1.5rem] flex items-center">
+         <div className="bg-blue-100 dark:bg-blue-900/40 p-2 rounded-xl mr-4 text-blue-600">
+           <Info size={18} />
+         </div>
+         <p className="text-[10px] font-black text-blue-800 dark:text-blue-400 uppercase tracking-widest leading-relaxed">
+           Running on Vercel (Local-First Mode). Data is currently stored on this device only. Use "Setup > Database Portability" to sync with other staff.
+         </p>
+      </div>
+
       {/* Stats Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
         <div className="bg-white dark:bg-slate-800 p-6 rounded-[2.5rem] shadow-sm border border-slate-100 dark:border-slate-700">
@@ -123,8 +133,8 @@ const Dashboard: React.FC = () => {
                       <div className="flex items-center">
                         <img className="h-12 w-12 rounded-[1rem] object-cover border border-slate-100 dark:border-slate-700 shadow-sm" src={senior.photoUrl} alt="Photo" />
                         <div className="ml-4">
-                          <div className="text-sm font-black text-slate-900 dark:text-white uppercase tracking-tight">{senior.lastName}, {senior.firstName}</div>
-                          <div className="text-[10px] font-bold text-slate-400 uppercase tracking-tighter truncate max-w-[150px]">{senior.address}</div>
+                          <div className="text-sm font-black text-slate-900 dark:text-white tracking-tight">{senior.lastName}, {senior.firstName}</div>
+                          <div className="text-[10px] font-bold text-slate-400 tracking-tighter truncate max-w-[150px]">{senior.address}</div>
                         </div>
                       </div>
                     </td>

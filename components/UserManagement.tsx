@@ -19,7 +19,7 @@ const UserManagement: React.FC = () => {
 
   const handleAddUser = (e: React.FormEvent) => {
     e.preventDefault();
-    // Force username to lowercase for consistent login
+    // Force username to small letters for consistency
     const normalizedUsername = formData.username.trim().toLowerCase();
     
     if (users.some(u => u.username.toLowerCase() === normalizedUsername)) {
@@ -55,7 +55,7 @@ const UserManagement: React.FC = () => {
     <div className="max-w-4xl mx-auto px-4 py-8">
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="text-2xl font-black text-emerald-900 uppercase tracking-tight flex items-center">
+          <h1 className="text-2xl font-black text-emerald-900 dark:text-white uppercase tracking-tight flex items-center">
             <Users className="mr-3 text-emerald-600" />
             System User Accounts
           </h1>
@@ -70,9 +70,9 @@ const UserManagement: React.FC = () => {
         </button>
       </div>
 
-      <div className="bg-white shadow-xl rounded-2xl border border-emerald-50 overflow-hidden">
-        <table className="min-w-full divide-y divide-emerald-50">
-          <thead className="bg-emerald-50/50">
+      <div className="bg-white dark:bg-slate-800 shadow-xl rounded-2xl border border-emerald-50 dark:border-slate-700 overflow-hidden">
+        <table className="min-w-full divide-y divide-emerald-50 dark:divide-slate-700">
+          <thead className="bg-emerald-50/50 dark:bg-slate-900/50">
             <tr>
               <th className="px-6 py-4 text-left text-[10px] font-black text-emerald-600 uppercase tracking-widest">Username</th>
               <th className="px-6 py-4 text-left text-[10px] font-black text-emerald-600 uppercase tracking-widest">Access Role</th>
@@ -80,11 +80,11 @@ const UserManagement: React.FC = () => {
               <th className="px-6 py-4 text-right text-[10px] font-black text-emerald-600 uppercase tracking-widest">Actions</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-emerald-50 bg-white">
+          <tbody className="divide-y divide-emerald-50 dark:divide-slate-700 bg-white dark:bg-slate-800">
             {users.map((user) => (
-              <tr key={user.id} className="hover:bg-emerald-50/30 transition-colors">
+              <tr key={user.id} className="hover:bg-emerald-50/30 dark:hover:bg-slate-700/30 transition-colors">
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <span className="text-sm font-black text-emerald-900 uppercase">{user.username}</span>
+                  <span className="text-sm font-black text-emerald-900 dark:text-white lowercase">{user.username}</span>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-tighter ${
@@ -114,24 +114,24 @@ const UserManagement: React.FC = () => {
       </div>
 
       {showModal && (
-        <div className="fixed inset-0 bg-emerald-900/40 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-white w-full max-w-md rounded-3xl shadow-2xl p-8 border border-emerald-100 animate-in fade-in zoom-in duration-200">
+        <div className="fixed inset-0 bg-emerald-900/40 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
+          <div className="bg-white dark:bg-slate-800 w-full max-md rounded-3xl shadow-2xl p-8 border border-emerald-100 dark:border-slate-700 animate-in fade-in zoom-in duration-200">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-xl font-black text-emerald-900 uppercase">New User Profile</h2>
+              <h2 className="text-xl font-black text-emerald-900 dark:text-white uppercase">New User Profile</h2>
               <button onClick={() => setShowModal(false)} className="text-gray-400 hover:text-emerald-900 transition-colors">
                 <X size={24} />
               </button>
             </div>
             <form onSubmit={handleAddUser} className="space-y-6">
               <div>
-                <label className="block text-[10px] font-black text-emerald-600 uppercase tracking-widest mb-2">Login Username</label>
+                <label className="block text-[10px] font-black text-emerald-600 uppercase tracking-widest mb-2">Login Username (Auto-Lowercase)</label>
                 <input
                   type="text"
                   required
                   placeholder="e.g. staff_name"
-                  className="w-full px-4 py-3 border border-emerald-100 rounded-xl focus:ring-2 focus:ring-emerald-500 outline-none text-gray-900 font-bold"
+                  className="w-full px-4 py-3 border border-emerald-100 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-emerald-500 outline-none text-gray-900 dark:text-white bg-white dark:bg-slate-900 font-bold lowercase"
                   value={formData.username}
-                  onChange={e => setFormData({...formData, username: e.target.value})}
+                  onChange={e => setFormData({...formData, username: e.target.value.toLowerCase()})}
                 />
               </div>
               <div>
@@ -141,7 +141,7 @@ const UserManagement: React.FC = () => {
                   <input
                     type="password"
                     required
-                    className="w-full pl-12 pr-4 py-3 border border-emerald-100 rounded-xl focus:ring-2 focus:ring-emerald-500 outline-none text-gray-900 font-bold"
+                    className="w-full pl-12 pr-4 py-3 border border-emerald-100 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-emerald-500 outline-none text-gray-900 dark:text-white bg-white dark:bg-slate-900 font-bold"
                     value={formData.password}
                     onChange={e => setFormData({...formData, password: e.target.value})}
                   />
@@ -156,7 +156,7 @@ const UserManagement: React.FC = () => {
                       type="button"
                       onClick={() => setFormData({...formData, role})}
                       className={`py-3 px-4 rounded-xl text-xs font-black uppercase tracking-widest border transition-all flex items-center justify-center ${
-                        formData.role === role ? 'bg-emerald-700 text-white border-emerald-700' : 'bg-gray-50 text-gray-400 border-gray-100 hover:border-emerald-200'
+                        formData.role === role ? 'bg-emerald-700 text-white border-emerald-700' : 'bg-gray-50 dark:bg-slate-900 text-gray-400 border-gray-100 dark:border-slate-700 hover:border-emerald-200'
                       }`}
                     >
                       {formData.role === role && <Check size={14} className="mr-2" />}
@@ -167,7 +167,7 @@ const UserManagement: React.FC = () => {
               </div>
               <button
                 type="submit"
-                className="w-full bg-emerald-700 text-white font-black py-4 rounded-xl uppercase tracking-widest text-xs shadow-xl shadow-emerald-100 transition-all hover:bg-emerald-800 active:scale-95"
+                className="w-full bg-emerald-700 text-white font-black py-4 rounded-xl uppercase tracking-widest text-xs shadow-xl shadow-emerald-100 dark:shadow-none transition-all hover:bg-emerald-800 active:scale-95"
               >
                 Create Account
               </button>
