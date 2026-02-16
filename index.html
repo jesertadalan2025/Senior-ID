@@ -20,19 +20,44 @@
       .dark body {
         background-color: #0f172a;
       }
+
+      /* PRINT OPTIMIZATION */
       @media print {
-        .no-print {
-          display: none !important;
-        }
-        .print-only {
-          display: block !important;
+        @page {
+          size: 86mm 54mm; /* Standard CR80 PVC card size */
+          margin: 0;
         }
         body {
           background-color: white !important;
           margin: 0;
           padding: 0;
+          -webkit-print-color-adjust: exact !important;
+          print-color-adjust: exact !important;
+        }
+        .no-print {
+          display: none !important;
+        }
+        .print-only {
+          display: block !important;
+          width: 86mm;
+          height: 54mm;
+          margin: 0;
+          padding: 0;
+        }
+        #root {
+          padding: 0 !important;
+          margin: 0 !important;
+        }
+        /* Ensure the card fills the print area */
+        .id-card-print-container {
+          display: flex !important;
+          justify-content: center;
+          align-items: center;
+          width: 100vw;
+          height: 100vh;
         }
       }
+
       .animate-shake {
         animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
       }

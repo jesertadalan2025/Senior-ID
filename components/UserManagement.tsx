@@ -19,8 +19,17 @@ const UserManagement: React.FC = () => {
 
   const handleAddUser = (e: React.FormEvent) => {
     e.preventDefault();
+    // Force username to lowercase for consistent login
+    const normalizedUsername = formData.username.trim().toLowerCase();
+    
+    if (users.some(u => u.username.toLowerCase() === normalizedUsername)) {
+      alert("Username already exists.");
+      return;
+    }
+
     const newUser: UserAccount = {
       ...formData,
+      username: normalizedUsername,
       id: Math.random().toString(36).substr(2, 9),
       createdAt: Date.now()
     };
@@ -119,6 +128,7 @@ const UserManagement: React.FC = () => {
                 <input
                   type="text"
                   required
+                  placeholder="e.g. staff_name"
                   className="w-full px-4 py-3 border border-emerald-100 rounded-xl focus:ring-2 focus:ring-emerald-500 outline-none text-gray-900 font-bold"
                   value={formData.username}
                   onChange={e => setFormData({...formData, username: e.target.value})}
